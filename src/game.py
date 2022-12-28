@@ -59,7 +59,7 @@ class Game:
 
         while self.running:
 
-            self.clock.tick(self.FPS)
+            self.clock.tick(self.fps)
             event_list = self.handle_events()
 
             # render
