@@ -2,7 +2,9 @@ import os
 import logging as log
 
 import pygame
+
 from settings import window_width, window_height, window_name, fps
+from scene_handler import SceneHandler
 
 
 class Game:
@@ -23,6 +25,8 @@ class Game:
         self.fps = fps
 
         ## Scenes
+        self.scene_handler = SceneHandler()
+        self.scene_handler.create_scene("nice", "yes")
 
         ## Initial State
         self.running = True

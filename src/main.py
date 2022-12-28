@@ -1,4 +1,3 @@
-import os
 import logging as log
 
 import pygame
@@ -7,7 +6,7 @@ from game import Game
 import logger
 
 
-def main():
+def main() -> None:
 
     logger.setup_logging()
 
