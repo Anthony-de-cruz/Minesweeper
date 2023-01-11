@@ -1,6 +1,6 @@
-import pygame
-
 from logging import log
+
+import pygame
 
 
 class Scene(pygame.sprite.Sprite):
@@ -14,6 +14,9 @@ class Scene(pygame.sprite.Sprite):
         ## Create surface
         self.image = pygame.display.get_surface()
         self.rect = self.image.get_rect()
+
+        self.width = self.rect.size[0]
+        self.height = self.rect.size[1]
 
     def update(self, event_list: list) -> None:
 

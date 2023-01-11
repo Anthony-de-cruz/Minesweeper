@@ -76,10 +76,12 @@ class Game:
             self.clock.tick(self.fps)
             event_list = self.handle_events()
 
+            self.scene_handler.update_focus(event_list)
+
             self.window.blit(
                 self.scene_handler.render_focus(),
                 (0, 0),
-                self.scene_handler.focus_rect(),
+                self.scene_handler.get_focus().rect,
             )
 
             pygame.display.flip()

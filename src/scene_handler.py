@@ -57,6 +57,16 @@ class SceneHandler:
         else:
             raise ValueError("Not a valid scene name")
 
+    def update_focus(self, event_list: list) -> None:
+
+        """Updates the focused scene.
+
+        Parameters
+        ----------
+            list[pygame.Event]: Event list to be passed to the scene."""
+
+        self.focused.sprites()[0].update(event_list)
+
     def render_focus(self) -> pygame.Surface:
 
         """Renders the focused scene and returns the image.
@@ -75,4 +85,4 @@ class SceneHandler:
         -------
             Scene: The scene object."""
 
-        return self.focused.sprites()[0].rect
+        return self.focused.sprites()[0]
