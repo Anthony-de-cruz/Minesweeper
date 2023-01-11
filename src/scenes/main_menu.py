@@ -4,6 +4,7 @@ import logging as log
 from scenes.scene import Scene
 from constants import COLOURS
 
+
 class MainMenu(Scene):
 
     """A scene object to be used as a main menu."""
@@ -29,7 +30,6 @@ class MainMenu(Scene):
         event_list : list
             An event list that is passed down for event handling."""
 
-    
     def render(self) -> pygame.Surface:
 
         """Method to render the scene.

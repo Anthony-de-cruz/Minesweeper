@@ -37,7 +37,7 @@ class Game:
     def setup_window(self) -> pygame.Surface:
 
         """Generates and returns a window surface.
-        
+
         Returns
         -------
             pygame.Surface: The generated window surface."""
@@ -53,7 +53,7 @@ class Game:
     def handle_events(self) -> list:
 
         """Fetches the event list, processes it and returns it.
-        
+
         Returns
         -------
             list: The event list."""
@@ -76,6 +76,10 @@ class Game:
             self.clock.tick(self.fps)
             event_list = self.handle_events()
 
-            self.window.blit(self.scene_handler.render_focus(), (0, 0), self.scene_handler.focus_rect())
+            self.window.blit(
+                self.scene_handler.render_focus(),
+                (0, 0),
+                self.scene_handler.focus_rect(),
+            )
 
             pygame.display.flip()

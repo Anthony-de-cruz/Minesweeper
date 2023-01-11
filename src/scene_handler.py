@@ -17,7 +17,7 @@ class SceneHandler:
     def create_scene(self, name: str, scene: Scene) -> None:
 
         """Creates a new scene.
-        
+
         Raises
         ------
             ValueError: If a scene of that name already exists."""
@@ -31,7 +31,7 @@ class SceneHandler:
     def remove_scene(self, name: str) -> None:
 
         """Removes a scene from the set.
-        
+
         Raises
         ------
             ValueError: If the name parameter is not found."""
@@ -44,8 +44,8 @@ class SceneHandler:
 
     def set_focus(self, name: str) -> None:
 
-        """Set a scene to be focused by name. 
-        
+        """Set a scene to be focused by name.
+
         Raises
         ------
             ValueError: If the name is not found."""
@@ -53,7 +53,7 @@ class SceneHandler:
         if name in self.scenes:
             self.focused.add(self.scenes[name])
             log.info(f"Scene: {name} focused.")
-        
+
         else:
             raise ValueError("Not a valid scene name")
 
@@ -66,15 +66,13 @@ class SceneHandler:
             pygame.surface.Surface: The rendered surface."""
 
         return self.focused.sprites()[0].render()
-    
+
     def get_focus(self) -> Scene:
 
         """Returns the focused Scene object.
-        
+
         Returns
         -------
             Scene: The scene object."""
 
         return self.focused.sprites()[0].rect
-
-

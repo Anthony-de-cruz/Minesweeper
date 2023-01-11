@@ -2,6 +2,7 @@ import pygame
 
 from logging import log
 
+
 class Scene(pygame.sprite.Sprite):
 
     """A primitive scene type. To be used to extend new scenes that overwrite it's methods."""
@@ -17,7 +18,7 @@ class Scene(pygame.sprite.Sprite):
     def update(self, event_list: list) -> None:
 
         """Method to manage scene behaviour.
-        
+
         This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
 
         Parameters
@@ -28,7 +29,7 @@ class Scene(pygame.sprite.Sprite):
     def render(self) -> pygame.Surface:
 
         """Method to render the scene.
-        
+
         This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
 
         Returns
