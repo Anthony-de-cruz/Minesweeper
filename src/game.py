@@ -5,6 +5,7 @@ import pygame
 
 from settings import window_width, window_height, window_name, fps
 from scene_handler import SceneHandler
+from scenes import main_menu
 
 
 class Game:
@@ -26,15 +27,20 @@ class Game:
 
         ## Scenes
         self.scene_handler = SceneHandler()
-        self.scene_handler.create_scene("nice", "yes")
+        self.scene_handler.create_scene("main_menu", main_menu.MainMenu())
 
         ## Initial State
         self.running = True
+        self.scene_handler.set_focus("main_menu")
         log.info("Game initialised")
 
-    def setup_window(self) -> pygame.surface:
+    def setup_window(self) -> pygame.Surface:
 
-        """Returns a window surface."""
+        """Generates and returns a window surface.
+        
+        Returns
+        -------
+            pygame.Surface: The generated window surface."""
 
         window = pygame.display.set_mode(
             (self.window_width, self.window_height)
@@ -46,7 +52,11 @@ class Game:
 
     def handle_events(self) -> list:
 
-        """Fetches the event list, processes it and returns it."""
+        """Fetches the event list, processes it and returns it.
+        
+        Returns
+        -------
+            list: The event list."""
 
         event_list = pygame.event.get()
 
@@ -66,6 +76,6 @@ class Game:
             self.clock.tick(self.fps)
             event_list = self.handle_events()
 
-            # render
+            self.window.blit(self.scene_handler.render_focus(), (0, 0), self.scene_handler.focus_rect())
 
             pygame.display.flip()

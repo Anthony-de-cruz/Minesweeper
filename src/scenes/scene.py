@@ -1,6 +1,6 @@
 import pygame
 
-from logger import log
+from logging import log
 
 class Scene(pygame.sprite.Sprite):
 
@@ -21,19 +21,17 @@ class Scene(pygame.sprite.Sprite):
         This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
 
         Parameters
-        
         ----------
         event_list : list
             An event list that is passed down for event handling."""
 
-    def render(self) -> pygame.surface.Surface:
+    def render(self) -> pygame.Surface:
 
         """Method to render the scene.
         
         This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
 
         Returns
-
         -------
         self.image : pygame.surface.Surface
             The rendered image.

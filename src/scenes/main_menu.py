@@ -1,10 +1,12 @@
 import pygame
 
-from logger import log
-from scene import Scene
+import logging as log
+from scenes.scene import Scene
 from constants import COLOURS
 
 class MainMenu(Scene):
+
+    """A scene object to be used as a main menu."""
 
     def __init__(self, *group: pygame.sprite.Group):
 
@@ -23,7 +25,6 @@ class MainMenu(Scene):
         """Method to manage scene behaviour.
 
         Parameters
-        
         ----------
         event_list : list
             An event list that is passed down for event handling."""
@@ -33,14 +34,13 @@ class MainMenu(Scene):
 
         """Method to render the scene.
 
-        Returns:
-
+        Returns
         -------
         self.image : pygame.surface.Surface
             The rendered image.
         """
 
-        self.image.fill(COLOURS["Black"])
+        self.image.fill(COLOURS["Grey"])
 
         self.sprite_groups["text"].draw(self.image)
         self.sprite_groups["buttons"].draw(self.image)
