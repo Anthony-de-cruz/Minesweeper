@@ -1,13 +1,7 @@
-from dataclasses import dataclass
-
 import pygame
 
-
-@dataclass
-class SceneChangeEvents:
-
-    main_menu: pygame.event.Event
-
+SCENE_MAIN_MENU = pygame.event.custom_type()
+SCENE_PARTICLE_TEST = pygame.event.custom_type()
 
 COLOURS = {
     "Black": (0, 0, 0),

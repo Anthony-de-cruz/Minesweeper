@@ -4,6 +4,7 @@ import logging as log
 import pygame
 
 from settings import window_width, window_height, window_name, fps
+from constants import SCENE_MAIN_MENU, SCENE_PARTICLE_TEST
 from scene_handler import SceneHandler
 from scenes import main_menu
 
@@ -27,14 +28,13 @@ class Game:
 
         ## Scenes
         self.scene_handler = SceneHandler()
-        self.scene_handler.create_scene("main_menu", main_menu.MainMenu())
 
         ## Initial State
         self.running = True
-        self.scene_handler.set_focus("main_menu")
+        pygame.event.post(pygame.event.Event(SCENE_MAIN_MENU))
         log.info("Game initialised")
 
-    def setup_window(self) -> pygame.Surface:
+    def setup_window(self) -> pygame.surface.Surface:
 
         """Generates and returns a window surface.
 
@@ -54,6 +54,8 @@ class Game:
 
         """Fetches the event list, processes it and returns it.
 
+        May be changed into it's own event handler class in the future.
+
         Returns
         -------
             list: The event list."""
@@ -62,8 +64,18 @@ class Game:
 
         for event in event_list:
 
-            if event.type is pygame.QUIT:
-                self.running = False
+            match event.type:
+
+                case pygame.QUIT:
+                    self.running = False
+
+                case SCENE_MAIN_MENU:
+
+                    log.info(event.type)
+
+                    log.info("Setting scene to: Main menu")
+                    self.scene_handler.create_scene("main_menu", main_menu.MainMenu())
+                    self.scene_handler.set_focus("main_menu")
 
         return event_list
 

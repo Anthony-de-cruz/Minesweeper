@@ -9,7 +9,7 @@ class GameObject(pygame.sprite.Sprite):
         self,
         x_coord: int,
         y_coord: int,
-        image: pygame.Surface,
+        image: pygame.surface.Surface,
         *group: pygame.sprite.Group
     ):
 

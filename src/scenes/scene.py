@@ -2,6 +2,8 @@ from logging import log
 
 import pygame
 
+from settings import window_width, window_height
+
 
 class Scene(pygame.sprite.Sprite):
 
@@ -9,10 +11,10 @@ class Scene(pygame.sprite.Sprite):
 
     def __init__(self, *group: pygame.sprite.Group):
 
-        super().__init__(group)
+        super().__init__(*group)
 
         ## Create surface
-        self.image = pygame.display.get_surface()
+        self.image = pygame.surface.Surface((100, 100))
         self.rect = self.image.get_rect()
 
         self.width = self.rect.size[0]
@@ -29,7 +31,7 @@ class Scene(pygame.sprite.Sprite):
         event_list : list
             An event list that is passed down for event handling."""
 
-    def render(self) -> pygame.Surface:
+    def render(self) -> pygame.surface.Surface:
 
         """Method to render the scene.
 

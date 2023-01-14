@@ -24,7 +24,7 @@ class Button(GameObject):
         y_coord: int,
         image: pygame.Surface,
         *group: pygame.sprite.Group,
-        function: FunctionType = unassigned_function
+        function=unassigned_function
     ):
 
         super().__init__(x_coord, y_coord, image, *group)

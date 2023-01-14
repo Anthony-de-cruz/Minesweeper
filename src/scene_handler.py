@@ -67,7 +67,7 @@ class SceneHandler:
 
         self.focused.sprites()[0].update(event_list)
 
-    def render_focus(self) -> pygame.Surface:
+    def render_focus(self) -> pygame.surface.Surface:
 
         """Renders the focused scene and returns the image.
 
