@@ -1,54 +1,70 @@
 from typing import List
-from typing_extensions import override
 
 import pygame
 
 
-class SpriteCamera(pygame.sprite.AbstractGroup):
+class SpriteCamera(pygame.sprite.Group):
 
-    """A camera class. Stores an offset vector to apply to a scene when drawn."""
+    """A camera class; subclass of pygame.sprite.Group.
 
-    def __init__(self) -> None:
+    Applies camera movement to all contained sprites to simulate a controllable
+    camera by applying a camera offset vector to the rect of all contained
+    sprites.
 
-        self.offset_vector = pygame.Vector2(0.0, 0.0)
+    Not intended to be used to draw/update the contained sprites.
 
-    @override
-    def __init__(self, x_offset: float, y_offset: float) -> None:
+    Stores an offset vector to record camera movements."""
 
-        self.offset_vector = pygame.Vector2(x_offset, y_offset)
+    def __init__(self, *sprites: pygame.sprite.Sprite) -> None:
 
-    def draw(self, surface: pygame.surface.Surface()) -> List[pygame.Rect]:
+        super().__init__(*sprites)
 
-        """All contained sprites are drawn to the surface with applied offset vector.
-        
-        A modified version of pygame.sprite.AbstractGroup.draw 
-        that simply applies the camera offset vector.
-        
-        Returns
-        -------
-            List[pygame.Rect]: A list of lost dirty sprites."""
+        self._offset_vector = [0, 0]
 
-        # Code copied from pygame.sprite.AbstractGroup.draw
-        sprites = self.sprites()
-        if hasattr(surface, "blits"):
-            
-            self.spritedict.update(
-                zip(
-                    sprites,
-                    surface.blits(
-                        (
-                            spr.image,
-                            # Modified to apply offset vector
-                            spr.rect.move(self.offset_vector.y,self.offset_vector.y),
-                        )
-                        for spr in sprites
-                    ),
-                )
-            )
-        else:
-            for spr in sprites:
-                self.spritedict[spr] = surface.blit(spr.image, spr.rect)
-        self.lostsprites = []
-        dirty = self.lostsprites
+    def move(self, x: int, y: int) -> None:
 
-        return dirty
+        """Move the camera offset by the passed amount.
+
+        Parameters
+        ----------
+            x: int
+                Modification to the X axis.
+
+            y: int
+                Modification to the Y axis."""
+
+        self._offset_vector[0] += x
+        self._offset_vector[1] += y
+
+        for sprite in self.sprites():
+
+            sprite.rect.x += x
+            sprite.rect.y += y
+
+    def set_offset(self, x: int, y: int) -> None:
+
+        """Set the camera offset to the passed amount.
+
+        Parameters
+        ----------
+            x: int
+                Set the X axis.
+
+            y: int
+                Set the Y axis."""
+
+        old_offset = self._offset_vector
+
+        self._offset_vector[0], self._offset_vector[1] = x, y
+
+        for sprite in self.sprites():
+
+            sprite.rect.x -= old_offset[0]
+            sprite.rect.y -= old_offset[1]
+
+            sprite.rect.x += self._offset_vector[0]
+            sprite.rect.y += self._offset_vector[1]
+
+            if hasattr(sprite, "dirty"):
+                if sprite.dirty == 0:
+                    sprite.dirty = 1

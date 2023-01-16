@@ -3,7 +3,8 @@ import pygame
 
 class GameObject(pygame.sprite.Sprite):
 
-    """A generic game object that is created with x/y coordinates and an image. The constructor generates width/height values and a Rect object."""
+    """A generic game object that is created with x/y coordinates and an image.
+    The constructor generates width/height values and a Rect object."""
 
     def __init__(
         self,

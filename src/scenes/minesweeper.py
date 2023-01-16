@@ -5,6 +5,7 @@ import pygame
 import settings
 from constants import COLOURS
 from scenes.scene import Scene
+from sprite_camera import SpriteCamera
 from objects.game_object import GameObject
 
 
@@ -19,14 +20,14 @@ class Minesweeper(Scene):
         self.sprite_groups = {}
 
         self.sprite_groups["ui"] = pygame.sprite.Group()
-        self.sprite_groups["camera_pan"] = pygame.sprite.Group()
+        self.sprite_groups["camera_0"] = SpriteCamera()
         self.sprite_groups["field"] = pygame.sprite.Group()
 
         GameObject(
             300,
             100,
             pygame.surface.Surface((100, 100)),
-            self.sprite_groups["camera_pan"],
+            self.sprite_groups["camera_0"],
             self.sprite_groups["ui"],
         )
 
@@ -64,15 +65,11 @@ class Minesweeper(Scene):
             or keys[pygame.K_RIGHT]
         ):
 
-            for sprite in self.sprite_groups["camera_pan"]:
-
-                sprite.rect.x += (
-                    keys[pygame.K_d] - keys[pygame.K_a]
-                ) * settings.camera_speed
-
-                sprite.rect.y += (
-                    keys[pygame.K_s] - keys[pygame.K_w]
-                ) * settings.camera_speed
+            self.sprite_groups["camera_0"].move(
+                (keys[pygame.K_d] - keys[pygame.K_a]) * settings.camera_speed,
+                (keys[pygame.K_s] - keys[pygame.K_w]) * settings.camera_speed,
+            )
+            pygame.sprite.DirtySprite
 
     def render(self) -> pygame.surface.Surface:
 
