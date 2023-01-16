@@ -1,5 +1,3 @@
-from typing import List
-
 import pygame
 
 
@@ -9,16 +7,28 @@ class SpriteCamera(pygame.sprite.Group):
 
     Applies camera movement to all contained sprites to simulate a controllable
     camera by applying a camera offset vector to the rect of all contained
-    sprites.
+    sprites. The offset is stored to
 
     Not intended to be used to draw/update the contained sprites.
 
     Stores an offset vector to record camera movements."""
 
-    def __init__(self, *sprites: pygame.sprite.Sprite) -> None:
+    def __init__(self, *sprites: pygame.sprite.Sprite, dirty: bool = True) -> None:
+
+        """Initialise an instance of SpriteCamera.
+
+        Parameters
+        ----------
+            *sprites: pygame.sprite.Sprite
+                Prexisting sprites to be added to the group upon initialisation.
+
+            dirty: bool = True
+                If true, any sprites that have a "dirty" attribute equal to
+                0 are set to 1."""
 
         super().__init__(*sprites)
 
+        self.dirty = dirty
         self._offset_vector = [0, 0]
 
     def move(self, x: int, y: int) -> None:
@@ -40,6 +50,10 @@ class SpriteCamera(pygame.sprite.Group):
 
             sprite.rect.x += x
             sprite.rect.y += y
+
+            if hasattr(sprite, "dirty") and self.dirty:
+                if sprite.dirty == 0:
+                    sprite.dirty = 1
 
     def set_offset(self, x: int, y: int) -> None:
 
@@ -65,6 +79,6 @@ class SpriteCamera(pygame.sprite.Group):
             sprite.rect.x += self._offset_vector[0]
             sprite.rect.y += self._offset_vector[1]
 
-            if hasattr(sprite, "dirty"):
+            if hasattr(sprite, "dirty") and self.dirty:
                 if sprite.dirty == 0:
                     sprite.dirty = 1

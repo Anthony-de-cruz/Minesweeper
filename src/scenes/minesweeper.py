@@ -52,6 +52,8 @@ class Minesweeper(Scene):
 
     def handle_inputs(self) -> None:
 
+        """Method to handle inputs."""
+
         keys = pygame.key.get_pressed()
 
         if (

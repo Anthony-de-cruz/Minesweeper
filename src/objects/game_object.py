@@ -1,10 +1,12 @@
 import pygame
 
 
-class GameObject(pygame.sprite.Sprite):
+class GameObject(pygame.sprite.DirtySprite):
 
-    """A generic game object that is created with x/y coordinates and an image.
-    The constructor generates width/height values and a Rect object."""
+    """A generic game object class; subclass of pygame.sprite.DirtySprite
+
+    Created with x/y coordinates and an image.
+    The initialiser generates width/height values and a Rect object."""
 
     def __init__(
         self,
@@ -17,9 +19,4 @@ class GameObject(pygame.sprite.Sprite):
         super().__init__(*group)
 
         self.image = image
-
-        # Create dimentions
-        self.width = image.get_width()
-        self.height = image.get_height()
-
-        self.rect = pygame.Rect(x_coord, y_coord, self.width, self.height)
+        self.rect = pygame.Rect(x_coord, y_coord, image.get_width(), image.get_height())
