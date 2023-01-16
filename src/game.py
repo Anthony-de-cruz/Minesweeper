@@ -4,9 +4,9 @@ import logging as log
 import pygame
 
 from settings import window_width, window_height, window_name, fps
-from constants import SCENE_MAIN_MENU, SCENE_PARTICLE_TEST
+import constants
 from scene_handler import SceneHandler
-from scenes import main_menu
+from scenes import main_menu, minesweeper
 
 
 class Game:
@@ -31,7 +31,7 @@ class Game:
 
         ## Initial State
         self.running = True
-        pygame.event.post(pygame.event.Event(SCENE_MAIN_MENU))
+        pygame.event.post(pygame.event.Event(constants.SCENE_MAIN_MENU))
         log.info("Game initialised")
 
     def setup_window(self) -> pygame.surface.Surface:
@@ -67,15 +67,22 @@ class Game:
             match event.type:
 
                 case pygame.QUIT:
+
                     self.running = False
 
-                case SCENE_MAIN_MENU:
-
-                    log.info(event.type)
+                case constants.SCENE_MAIN_MENU:
 
                     log.info("Setting scene to: Main menu")
                     self.scene_handler.create_scene("main_menu", main_menu.MainMenu())
                     self.scene_handler.set_focus("main_menu")
+
+                case constants.SCENE_MINESWEEPER:
+
+                    log.info("Setting scene to: Minesweeper")
+                    self.scene_handler.create_scene(
+                        "minesweeper", minesweeper.Minesweeper()
+                    )
+                    self.scene_handler.set_focus("minesweeper")
 
         return event_list
 

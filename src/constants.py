@@ -1,6 +1,7 @@
 import pygame
 
 SCENE_MAIN_MENU = pygame.event.custom_type()
+SCENE_MINESWEEPER = pygame.event.custom_type()
 SCENE_PARTICLE_TEST = pygame.event.custom_type()
 
 COLOURS = {

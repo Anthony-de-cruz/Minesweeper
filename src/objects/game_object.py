@@ -15,12 +15,10 @@ class GameObject(pygame.sprite.Sprite):
 
         super().__init__(*group)
 
-        self.x_coord = x_coord
-        self.y_coord = y_coord
         self.image = image
 
         # Create dimentions
         self.width = image.get_width()
         self.height = image.get_height()
 
-        self.rect = pygame.Rect(self.x_coord, self.y_coord, self.width, self.height)
+        self.rect = pygame.Rect(x_coord, y_coord, self.width, self.height)

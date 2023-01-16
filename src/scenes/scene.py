@@ -14,7 +14,7 @@ class Scene(pygame.sprite.Sprite):
         super().__init__(*group)
 
         ## Create surface
-        self.image = pygame.surface.Surface((100, 100))
+        self.image = pygame.display.get_surface()
         self.rect = self.image.get_rect()
 
         self.width = self.rect.size[0]

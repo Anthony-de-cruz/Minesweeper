@@ -2,7 +2,7 @@ import logging as log
 
 import pygame
 
-from constants import COLOURS
+from constants import COLOURS, SCENE_MINESWEEPER
 from scenes.scene import Scene
 from objects.button import Button
 from objects.game_object import GameObject
@@ -10,7 +10,7 @@ from objects.game_object import GameObject
 
 class MainMenu(Scene):
 
-    """A scene object to be used as a main menu."""
+    """A scene class to be used as a main menu."""
 
     def __init__(self, *group: pygame.sprite.Group):
 
@@ -71,7 +71,7 @@ class MainMenu(Scene):
 
         def start_button_function() -> None:
             log.info("Start button pressed")
-            pygame.event.post(pygame.event.Event(pygame.QUIT))
+            pygame.event.post(pygame.event.Event(SCENE_MINESWEEPER))
 
         # Start button
         start_button = Button(
@@ -79,6 +79,7 @@ class MainMenu(Scene):
             int((self.height - start_button_image.get_height() // 2) * 0.40),
             start_button_image,
             self.sprite_groups["buttons"],
+            function=start_button_function,
         )
 
         # Quit button
