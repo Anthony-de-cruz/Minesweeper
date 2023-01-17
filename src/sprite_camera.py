@@ -1,9 +1,9 @@
 import pygame
 
 
-class SpriteCamera(pygame.sprite.Group):
+class SpriteCamera(pygame.sprite.GroupSingle):
 
-    """A camera class; subclass of pygame.sprite.Group.
+    """A camera class; subclass of pygame.sprite.GroupSingle.
 
     Applies camera movement to all contained sprites to simulate a controllable
     camera by applying a camera offset vector to the rect of all contained

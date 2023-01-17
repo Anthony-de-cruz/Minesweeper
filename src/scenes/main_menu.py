@@ -1,4 +1,4 @@
-import logging as log
+import logging
 
 import pygame
 
@@ -6,6 +6,9 @@ from constants import COLOURS, SCENE_MINESWEEPER
 from scenes.scene import Scene
 from objects.button import Button
 from objects.game_object import GameObject
+
+
+log = logging.getLogger(__name__)
 
 
 class MainMenu(Scene):
@@ -17,10 +20,8 @@ class MainMenu(Scene):
         super().__init__(*group)
 
         ## Create sprite groups
-        self.sprite_groups = {}
-
-        self.sprite_groups["text"] = pygame.sprite.Group()
-        self.sprite_groups["buttons"] = pygame.sprite.Group()
+        self.create_group("text", pygame.sprite.Group)
+        self.create_group("buttons", pygame.sprite.Group)
 
         ## Load assets
         # Title

@@ -1,7 +1,11 @@
+import logging
+
 import pygame
 
-import logging as log
 from scenes.scene import Scene
+
+
+log = logging.getLogger(__name__)
 
 
 class SceneHandler:
@@ -65,7 +69,7 @@ class SceneHandler:
         ----------
             list[pygame.Event]: Event list to be passed to the scene."""
 
-        self.focused.sprites()[0].update(event_list)
+        self.focused.sprite.update(event_list)
 
     def render_focus(self) -> pygame.surface.Surface:
 
@@ -75,7 +79,7 @@ class SceneHandler:
         -------
             pygame.surface.Surface: The rendered surface."""
 
-        return self.focused.sprites()[0].render()
+        return self.focused.sprite.render()
 
     def get_focus(self) -> Scene:
 
@@ -85,4 +89,4 @@ class SceneHandler:
         -------
             Scene: The scene object."""
 
-        return self.focused.sprites()[0]
+        return self.focused.sprite

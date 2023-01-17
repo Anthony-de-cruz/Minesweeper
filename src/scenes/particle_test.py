@@ -1,9 +1,12 @@
-import logging as log
+import logging
 
 import pygame
 
 from constants import COLOURS
 from scenes.scene import Scene
+
+
+log = logging.getLogger(__name__)
 
 
 class ParticleTest(Scene):

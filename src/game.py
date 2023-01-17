@@ -1,5 +1,5 @@
 import os
-import logging as log
+import logging
 
 import pygame
 
@@ -7,6 +7,9 @@ from settings import window_width, window_height, window_name, fps
 import constants
 from scene_handler import SceneHandler
 from scenes import main_menu, minesweeper
+
+
+log = logging.getLogger(__name__)
 
 
 class Game:

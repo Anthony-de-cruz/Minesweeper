@@ -1,4 +1,4 @@
-from logging import log
+import logging
 
 import pygame
 
@@ -7,6 +7,10 @@ from constants import COLOURS
 from scenes.scene import Scene
 from sprite_camera import SpriteCamera
 from objects.game_object import GameObject
+from objects.minefield import Minefield
+
+
+log = logging.getLogger(__name__)
 
 
 class Minesweeper(Scene):
@@ -17,18 +21,26 @@ class Minesweeper(Scene):
 
         super().__init__(*group)
 
-        self.sprite_groups = {}
+        self.create_group("ui", pygame.sprite.Group)
+        self.create_group("camera_0", SpriteCamera)
+        self.create_group("minefield", pygame.sprite.Group)
 
-        self.sprite_groups["ui"] = pygame.sprite.Group()
-        self.sprite_groups["camera_0"] = SpriteCamera()
-        self.sprite_groups["field"] = pygame.sprite.Group()
-
-        GameObject(
+        ui = GameObject(
             300,
             100,
             pygame.surface.Surface((100, 100)),
-            self.sprite_groups["camera_0"],
             self.sprite_groups["ui"],
+        )
+
+        ui.image.fill((COLOURS["Grey"]))
+
+        Minefield(
+            0,
+            0,
+            20,
+            20,
+            self.sprite_groups["minefield"],
+            self.sprite_groups["camera_0"],
         )
 
     def update(self, event_list: list) -> None:
@@ -44,11 +56,17 @@ class Minesweeper(Scene):
 
             match event.type:
 
-                case _:
+                case pygame.MOUSEBUTTONDOWN if event.button == pygame.BUTTON_LEFT:
 
-                    pass
+                    click_pos = pygame.mouse.get_pos()
+
+                    for minefield in self.sprite_groups["minefield"].sprites():
+                        minefield.uncover(click_pos[0])
 
         self.handle_inputs()
+
+        self.sprite_groups["ui"].update()
+        self.sprite_groups["minefield"].update()
 
     def handle_inputs(self) -> None:
 
@@ -68,10 +86,9 @@ class Minesweeper(Scene):
         ):
 
             self.sprite_groups["camera_0"].move(
-                (keys[pygame.K_d] - keys[pygame.K_a]) * settings.camera_speed,
-                (keys[pygame.K_s] - keys[pygame.K_w]) * settings.camera_speed,
+                (keys[pygame.K_a] - keys[pygame.K_d]) * settings.camera_speed,
+                (keys[pygame.K_w] - keys[pygame.K_s]) * settings.camera_speed,
             )
-            pygame.sprite.DirtySprite
 
     def render(self) -> pygame.surface.Surface:
 
@@ -85,6 +102,7 @@ class Minesweeper(Scene):
 
         self.image.fill(COLOURS["Dark Grey"])
 
+        self.sprite_groups["minefield"].draw(self.image)
         self.sprite_groups["ui"].draw(self.image)
 
         return self.image

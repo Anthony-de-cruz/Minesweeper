@@ -1,14 +1,12 @@
-import logging as log
-
 import pygame
 
-from game import Game
 import logger
+from game import Game
 
 
 def main() -> None:
 
-    logger.setup_logging()
+    log = logger.setup_logging(__name__, logger.DEBUG)
 
     pygame.init()
 
