@@ -53,6 +53,7 @@ class Minesweeper(Scene):
         event_list : list
             An event list that is passed down for event handling."""
 
+        # Too many indents
         for event in event_list:
 
             match event.type:
@@ -64,14 +65,15 @@ class Minesweeper(Scene):
                     for sprite in self.sprite_groups["clickable"]:
                         if sprite.rect.collidepoint(click_pos):
 
-                            sprite.click(click_pos)
+                            if isinstance(sprite, Minefield) and event.button == pygame.BUTTON_LEFT:
+                                sprite.uncover(click_pos)
 
-        self.handle_inputs()
+        self._handle_inputs()
 
         self.sprite_groups["ui"].update()
         self.sprite_groups["minefield"].update()
 
-    def handle_inputs(self) -> None:
+    def _handle_inputs(self) -> None:
 
         """Method to handle inputs."""
 

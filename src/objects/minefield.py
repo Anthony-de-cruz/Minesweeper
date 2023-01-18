@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Tuple
 
 import pygame
 
@@ -46,11 +47,20 @@ class Minefield(GameObject):
         for row in range(rows):
             for column in range(columns):
 
-                self.minefield[f"{row},{column}"] = Tile(False, 0)
+                self.minefield[(row, column)] = Tile(False, 0)
 
-        def uncover(self, click_pos):
-            pass
+    def uncover(self, click_pos: Tuple[int, int]) -> None:
 
-        def update(self):
+        """Method to act as a common way to interact.
 
-            pass
+        Parameters
+        ----------
+            click_pos : Tuple[int, int]
+                A tuple containing x and y coordinates."""
+
+        self.minefield[(click_pos[0] // self.tile_width, click_pos[0] // self.tile_height)].uncover()
+
+
+    def update(self):
+
+        pass
