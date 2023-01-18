@@ -23,6 +23,7 @@ class Minesweeper(Scene):
 
         self.create_group("ui", pygame.sprite.Group)
         self.create_group("camera_0", SpriteCamera)
+        self.create_group("clickable", pygame.sprite.Group)
         self.create_group("minefield", pygame.sprite.Group)
 
         ui = GameObject(
@@ -60,8 +61,10 @@ class Minesweeper(Scene):
 
                     click_pos = pygame.mouse.get_pos()
 
-                    for minefield in self.sprite_groups["minefield"].sprites():
-                        minefield.uncover(click_pos[0])
+                    for sprite in self.sprite_groups["clickable"]:
+                        if sprite.rect.collidepoint(click_pos):
+
+                            sprite.click(click_pos)
 
         self.handle_inputs()
 
