@@ -82,7 +82,6 @@ class AudioHandler {
 }
 
 Game *-- AudioHandler : 1
-PygameLibrary -- AudioHandler
 
 class InputHandler {
         
@@ -92,7 +91,6 @@ class InputHandler {
 }
 
 Game *-- InputHandler : 1
-PygameLibrary -- InputHandler
 
 class EventHandler {
 
@@ -103,9 +101,19 @@ class EventHandler {
         handle_events()
 }
 
-PygameLibrary -- EventHandler
-
 Game *-- EventHandler : 1
+
+class PlayerData {
+
+        String[] Data
+
+        PlayerData()
+
+        write_data()
+        get_data()
+}
+
+Game *-- PlayerData : 1
 
 class Scene {
         pygame.Image image
@@ -114,7 +122,7 @@ class Scene {
         int height
         pygame.sprite.AbstractGroup[] sprite_groups
 
-        Scene(AudioHandler, InputHandler)
+        Scene(AudioHandler, InputHandler, PlayerData)
 
         create_group()
         update()
@@ -122,9 +130,10 @@ class Scene {
 }
 
 SpriteGroup o-- Scene : *
-AudioHandler <.. Scene : 1
-InputHandler <.. Scene : 1
-
+GameObject o-- Scene : *
+AudioHandler <-- Scene : 1
+InputHandler <-- Scene : 1
+PlayerData <-- Scene : 1
 
 class GameObject {
 
@@ -138,6 +147,7 @@ class GameObject {
 }
 
 Sprite <|-- GameObject
-Scene o-- GameObject : *
+
+note for GameObject "Other game objects will\nhave a similar relationship."
 
 ```
