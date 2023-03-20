@@ -1,48 +1,24 @@
 from logging import log
+from abc import ABC, abstractmethod
 
 import pygame
 
-from settings import window_width, window_height
 
+class Scene(ABC):
 
-class Scene(pygame.sprite.Sprite):
-
-    """A primitive scene type; subclass of pygame.sprite.Sprite
+    """A primitive scene type
 
     Scenes are objects that contain game "scenes", such as levels.
-    Scenes handle the logic of the objects within them.
+    Scenes handle the logic and drawing of the objects within them.
 
     To be used to extend new scenes that overwrite it's methods.
+    
+    Attributes
+    ----------
+        sprite_groups: dict[str, pygame.sprite.AbstractGroup]
+            A container for sprite groups."""
 
-    Scene attributes
-    ----------------
-        image: pygame.surface.Surface
-            The scene surface; inherited from pygame.sprite.Sprite
-
-        rect: pygame.rect.Rect
-            The scene's rect; inherited from pygame.sprite.Sprite
-
-        width: int
-            The scene's width dimention.
-
-        height: int
-            The scene's height dimention.
-
-        sprite_groups: dict[pygame.sprite.AbstractGroup]
-            A dictionary intended to keep all of a scenes sprite groups.
-
-            Can be used to update all sprites, ect. Usage is optional."""
-
-    def __init__(self, *group: pygame.sprite.Group) -> None:
-
-        super().__init__(*group)
-
-        ## Create surface
-        self.image = pygame.display.get_surface()
-        self.rect = self.image.get_rect()
-
-        self.width = self.rect.size[0]
-        self.height = self.rect.size[1]
+    def __init__(self) -> None:
 
         self.sprite_groups = {}
 
@@ -60,27 +36,25 @@ class Scene(pygame.sprite.Sprite):
 
         self.sprite_groups[name] = group_type()
 
+    @abstractmethod
     def update(self, event_list: list) -> None:
 
         """Method to manage scene behaviour.
 
-        This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
+        Designed to be used to update the scene behaviour and handle events.
 
         Parameters
         ----------
         event_list : list
             An event list that is passed down for event handling."""
 
-    def render(self) -> pygame.surface.Surface:
+    @abstractmethod
+    def draw(self, window: pygame.surface.Surface):
 
-        """Method to render the scene.
+        """ to render the scene.
 
-        This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
-
-        Returns
+        Parameters
         -------
-        self.image : pygame.surface.Surface
-            The rendered image.
+        window : pygame.surface.Surface
+            The window surface to be drawn on.
         """
-
-        return self.image

@@ -23,6 +23,7 @@ Systems to implement:
 
 ---
 ## UML Class Diagram (unfinished)
+I suck at UML diagrams so bare with me.
 
 ```mermaid
 classDiagram
@@ -35,6 +36,8 @@ class Game {
 
         Game()
 
+        fetch_config()
+        fetch_events()
         mainloop()
 }
 
@@ -42,6 +45,8 @@ class Game {
 class PygameLibrary {
         ...
 }
+
+note for PygameLibrary "...refer to the corrosponding\ndocumentation."
 
 class Sprite {
         ...
@@ -64,7 +69,7 @@ class SceneHandler {
         create_scene()
         remove_scene()
         set_focus()
-        update_focus()
+        update_focus(Event[] event_list)
         render_focus()
         get_focused()
 }
@@ -82,26 +87,6 @@ class AudioHandler {
 }
 
 Game *-- AudioHandler : 1
-
-class InputHandler {
-        
-        InputHandler(Device)
-
-        handle_inputs()
-}
-
-Game *-- InputHandler : 1
-
-class EventHandler {
-
-        Event[] events
-
-        EventHandler()
-
-        handle_events()
-}
-
-Game *-- EventHandler : 1
 
 class PlayerData {
 
@@ -125,14 +110,13 @@ class Scene {
         Scene(AudioHandler, InputHandler, PlayerData)
 
         create_group()
-        update()
+        update(Event[] event_list)
         render()
 }
 
 SpriteGroup o-- Scene : *
 GameObject o-- Scene : *
 AudioHandler <-- Scene : 1
-InputHandler <-- Scene : 1
 PlayerData <-- Scene : 1
 
 class GameObject {
@@ -140,7 +124,7 @@ class GameObject {
         pygame.Image image
         pygame.Rect rect
 
-        GameObject(pygame.Sprite.Group *groups)
+        GameObject(pygame.sprite.Group *groups)
 
         update()
         render()
@@ -148,6 +132,29 @@ class GameObject {
 
 Sprite <|-- GameObject
 
-note for GameObject "Other game objects will\nhave a similar relationship."
+class ExampleObject {
+
+        pygame.Vector2 velocity
+
+        ExampleObject(int x, int y, pygame.sprite.Group *groups)
+
+        shoot()
+        explode()
+}
+
+GameObject <|-- ExampleObject
+
+class SpriteCamera {
+
+        bool dirty
+        int[] _offset_vector
+
+        SpriteCamera(pygame.Sprite *sprites, bool dirty)
+
+        move(int x, int y)
+        set_offset(int x, int y)
+}
+
+SpriteGroup <|-- SpriteCamera
 
 ```

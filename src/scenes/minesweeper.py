@@ -21,6 +21,7 @@ class Minesweeper(Scene):
 
         super().__init__(*group)
 
+        self.create_group("draw", pygame.sprite.LayeredDirty)
         self.create_group("ui", pygame.sprite.Group)
         self.create_group("camera_0", SpriteCamera)
         self.create_group("clickable", pygame.sprite.Group)
@@ -95,14 +96,14 @@ class Minesweeper(Scene):
                 (keys[pygame.K_w] - keys[pygame.K_s]) * settings.camera_speed,
             )
 
-    def render(self) -> pygame.surface.Surface:
+    def draw(self, window: pygame.surface.Surface):
 
-        """Method to render the scene.
+        """Method to draw the scene.
 
-        Returns
+        Parameters
         -------
-        self.image : pygame.surface.Surface
-            The rendered image.
+        window : pygame.surface.Surface
+            The window surface to be drawn on.
         """
 
         self.image.fill(COLOURS["Dark Grey"])
@@ -110,4 +111,4 @@ class Minesweeper(Scene):
         self.sprite_groups["minefield"].draw(self.image)
         self.sprite_groups["ui"].draw(self.image)
 
-        return self.image
+        

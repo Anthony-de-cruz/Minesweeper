@@ -22,7 +22,7 @@ class Game:
         self.window_width = window_width
         self.window_height = window_height
         self.window_name = window_name
-
+ 
         self.window = self.setup_window()
 
         ## Clock
@@ -46,8 +46,7 @@ class Game:
             pygame.Surface: The generated window surface."""
 
         window = pygame.display.set_mode(
-            (self.window_width, self.window_height)
-        ).convert_alpha()
+            (self.window_width, self.window_height))
         pygame.display.set_caption((self.window_name))
         os.environ["SDL_VIDEO_CENTERED"] = "1"
 
@@ -99,11 +98,6 @@ class Game:
             event_list = self.handle_events()
 
             self.scene_handler.update_focus(event_list)
-
-            self.window.blit(
-                self.scene_handler.render_focus(),
-                (0, 0),
-                self.scene_handler.get_focus().rect,
-            )
+            self.scene_handler.draw_focus(self.window)
 
             pygame.display.flip()

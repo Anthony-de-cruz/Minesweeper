@@ -3,6 +3,7 @@ import logging
 import pygame
 
 from constants import COLOURS, SCENE_MINESWEEPER
+from settings import window_width, window_height
 from scenes.scene import Scene
 from objects.button import Button
 from objects.game_object import GameObject
@@ -15,13 +16,20 @@ class MainMenu(Scene):
 
     """A scene class to be used as a main menu."""
 
-    def __init__(self, *group: pygame.sprite.Group):
+    def __init__(self):
 
-        super().__init__(*group)
+        super().__init__()
 
         ## Create sprite groups
-        self.create_group("text", pygame.sprite.Group)
-        self.create_group("buttons", pygame.sprite.Group)
+        self.create_group("text", pygame.sprite.LayeredDirty)
+        self.create_group("buttons", pygame.sprite.LayeredDirty)
+        self.create_group("draw", pygame.sprite.LayeredDirty)
+
+        self._setup_scene()
+
+        log.info("Main menu scene initialised")
+    
+    def _setup_scene(self) -> None:
 
         ## Load assets
         # Title
@@ -64,8 +72,8 @@ class MainMenu(Scene):
         ## Create objects
         # Title
         title = GameObject(
-            self.width // 2 - title_image.get_width() // 2,
-            int((self.height - title_image.get_height() // 2) * 0.1),
+            window_width // 2 - title_image.get_width() // 2,
+            int((window_height - title_image.get_height() // 2) * 0.1),
             title_image,
             self.sprite_groups["text"],
         )
@@ -76,8 +84,8 @@ class MainMenu(Scene):
 
         # Start button
         start_button = Button(
-            self.width // 2 - start_button_image.get_width() // 2,
-            int((self.height - start_button_image.get_height() // 2) * 0.40),
+            window_width // 2 - start_button_image.get_width() // 2,
+            int((window_height - start_button_image.get_height() // 2) * 0.40),
             start_button_image,
             self.sprite_groups["buttons"],
             function=start_button_function,
@@ -89,14 +97,19 @@ class MainMenu(Scene):
             pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         quit_button = Button(
-            self.width // 2 - quit_button_image.get_width() // 2,
-            int((self.height - quit_button_image.get_height() // 2) * 0.50),
+            window_width // 2 - quit_button_image.get_width() // 2,
+            int((window_height - quit_button_image.get_height() // 2) * 0.50),
             quit_button_image,
             self.sprite_groups["buttons"],
             function=quit_button_function,
         )
 
-        log.info("Main menu scene initialised")
+        background = pygame.Surface((window_width, window_height)).convert()
+        background.fill(COLOURS["Dark Grey"])
+        self.sprite_groups["draw"].clear(background, bgd=background)
+
+        self.sprite_groups["draw"].add(self.sprite_groups["text"], layer=1)
+        self.sprite_groups["draw"].add(self.sprite_groups["buttons"], layer=2)
 
     def update(self, event_list: list) -> None:
 
@@ -125,20 +138,17 @@ class MainMenu(Scene):
 
                     for button in clicked_buttons:
                         button.function()
-
-    def render(self) -> pygame.surface.Surface:
+    
+    def draw(self, window: pygame.surface.Surface) -> None:
 
         """Method to render the scene.
 
-        Returns
+        This implementation is blank, designed to act as a hook to be overwritten in extended scenes.
+
+        Parameters
         -------
-        self.image : pygame.surface.Surface
-            The rendered image.
+        window : pygame.surface.Surface
+            The window surface to be drawn on.
         """
 
-        self.image.fill(COLOURS["Dark Grey"])
-
-        self.sprite_groups["text"].draw(self.image)
-        self.sprite_groups["buttons"].draw(self.image)
-
-        return self.image
+        self.sprite_groups["draw"].draw(window)

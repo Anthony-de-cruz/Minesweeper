@@ -16,7 +16,7 @@ class SceneHandler:
 
         self.scenes = {}
 
-        self.focused = pygame.sprite.GroupSingle()
+        self.focused = None
 
     def create_scene(self, name: str, scene: Scene) -> None:
 
@@ -55,7 +55,7 @@ class SceneHandler:
             ValueError: If the name is not found."""
 
         if name in self.scenes:
-            self.focused.add(self.scenes[name])
+            self.focused = self.scenes[name]
             log.info(f"Scene: {name} focused.")
 
         else:
@@ -69,17 +69,18 @@ class SceneHandler:
         ----------
             list[pygame.Event]: Event list to be passed to the scene."""
 
-        self.focused.sprite.update(event_list)
+        self.focused.update(event_list)
 
-    def render_focus(self) -> pygame.surface.Surface:
+    def draw_focus(self, window: pygame.surface.Surface) -> None:
 
-        """Renders the focused scene and returns the image.
+        """Calls the draw() method on the focused scene.
 
-        Returns
+        Parameter
         -------
-            pygame.surface.Surface: The rendered surface."""
+            window: pygame.surface.Surface
+                The window surface to be drawn on."""
 
-        return self.focused.sprite.render()
+        self.focused.draw(window)
 
     def get_focus(self) -> Scene:
 
@@ -89,4 +90,4 @@ class SceneHandler:
         -------
             Scene: The scene object."""
 
-        return self.focused.sprite
+        return self.focused
